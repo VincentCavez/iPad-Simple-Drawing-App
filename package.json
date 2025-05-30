@@ -1,0 +1,38 @@
+{
+  "name": "pwa-ipad-apple-pencil",
+  "version": "1.0.0",
+  "description": "Progressive Web App optimisée pour iPad Air et Apple Pencil",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve . -p 8000 -s",
+    "dev": "npx serve . -p 8000",
+    "build": "echo 'Projet prêt pour la production'",
+    "test": "echo 'Tests à implémenter'",
+    "generate-icons": "open generate-icons.html"
+  },
+  "keywords": [
+    "pwa",
+    "ipad",
+    "apple-pencil",
+    "drawing",
+    "canvas",
+    "touch",
+    "progressive-web-app"
+  ],
+  "author": "Votre nom",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/votre-username/pwa-ipad-apple-pencil.git"
+  },
+  "bugs": {
+    "url": "https://github.com/votre-username/pwa-ipad-apple-pencil/issues"
+  },
+  "homepage": "https://github.com/votre-username/pwa-ipad-apple-pencil#readme"
+} 
