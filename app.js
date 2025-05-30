@@ -26,6 +26,9 @@ class DrawingApp {
         this.ctx.lineCap = 'round';
         this.ctx.lineJoin = 'round';
         this.ctx.imageSmoothingEnabled = true;//?
+        
+        // Initialiser avec la texture de papier
+        this.drawPaperTexture();
     }
     
     resizeCanvas() {
@@ -52,6 +55,9 @@ class DrawingApp {
         // Restaurer le contenu si possible
         if (imageData.width > 0 && imageData.height > 0) {
             this.ctx.putImageData(imageData, 0, 0);
+        } else {
+            // Si pas de contenu à restaurer, redessiner la texture
+            this.drawPaperTexture();
         }
     }
     
@@ -78,9 +84,13 @@ class DrawingApp {
             this.toggleColorPicker();
         });
         
-        // Slider taille du pinceau
-        document.getElementById('brushSize').addEventListener('input', (e) => {
+        // Slider taille du pinceau avec affichage
+        const brushSlider = document.getElementById('brushSize');
+        const sizeDisplay = document.getElementById('sizeDisplay');
+        
+        brushSlider.addEventListener('input', (e) => {
             this.currentSize = parseInt(e.target.value);
+            sizeDisplay.textContent = this.currentSize;
         });
         
         // Sélecteur de couleurs
@@ -88,6 +98,8 @@ class DrawingApp {
             option.addEventListener('click', (e) => {
                 this.currentColor = e.target.dataset.color;
                 this.hideColorPicker();
+                // Mettre à jour l'indicateur visuel de couleur
+                this.updateColorIndicator();
             });
         });
         
@@ -97,6 +109,12 @@ class DrawingApp {
                 this.hideColorPicker();
             }
         });
+        
+        // Initialiser l'affichage
+        sizeDisplay.textContent = this.currentSize;
+        
+        // Initialiser la couleur du slider
+        this.updateColorIndicator();
     }
     
     detectInputType(touch) {
@@ -252,8 +270,42 @@ class DrawingApp {
     }
     
     // Fonctions utilitaires
+    drawPaperTexture() {
+        // Fond blanc
+        this.ctx.fillStyle = 'white';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        // Marge rouge à gauche
+        this.ctx.fillStyle = '#ffe6e6';
+        
+        this.ctx.globalAlpha = 0.3;  // Réduire l'opacité à 30%
+        this.ctx.fillRect(0, 0, 60 * (window.devicePixelRatio || 1), this.canvas.height);
+        this.ctx.globalAlpha = 1.0;  // Restaurer l'opacité par défaut
+        
+        // Ligne rouge de marge
+        this.ctx.strokeStyle = '#ff9999';
+        this.ctx.lineWidth = 1;
+        this.ctx.beginPath();
+        this.ctx.moveTo(60 * (window.devicePixelRatio || 1), 0);
+        this.ctx.lineTo(60 * (window.devicePixelRatio || 1), this.canvas.height);
+        this.ctx.stroke();
+        
+        // Lignes horizontales bleues
+        this.ctx.strokeStyle = '#cce7ff';
+        this.ctx.lineWidth = 1;
+        const lineSpacing = 25 * (window.devicePixelRatio || 1);
+        
+        for (let y = lineSpacing; y < this.canvas.height; y += lineSpacing) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(0, y);
+            this.ctx.lineTo(this.canvas.width, y);
+            this.ctx.stroke();
+        }
+    }
+
     clearCanvas() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        // Redessiner la texture de papier au lieu d'un fond blanc uni
+        this.drawPaperTexture();
     }
     
     toggleColorPicker() {
@@ -264,6 +316,18 @@ class DrawingApp {
     hideColorPicker() {
         const picker = document.getElementById('colorPicker');
         picker.classList.add('hidden');
+    }
+    
+    updateColorIndicator() {
+        const colorBtn = document.getElementById('colorBtn');
+        const slider = document.getElementById('brushSize');
+        
+        // Ajouter une petite indication visuelle de la couleur actuelle
+        colorBtn.style.borderColor = this.currentColor;
+        colorBtn.style.borderWidth = '3px';
+        
+        // Mettre à jour la couleur du slider
+        slider.style.setProperty('--slider-color', this.currentColor);
     }
     
     // Sauvegarde et chargement (pour une future extension)

@@ -26,17 +26,23 @@
 </head>
 <body>
     <div id="app">
-        <header class="app-header">
-            <div class="toolbar">
-                <button id="clearBtn" class="btn">Clean</button>
-                <button id="colorBtn" class="btn">Colors</button>
-                <input type="range" id="brushSize" min="1" max="20" value="5" class="slider">
-            </div>
-        </header>
-        
-        <main class="app-main">
-            <canvas id="drawingCanvas" class="drawing-canvas"></canvas>
-        </main>
+        <div class="app-content">
+            <main class="app-main">
+                <div class="bottom-section">
+                    <canvas id="drawingCanvas" class="drawing-canvas"></canvas>
+                </div>
+            </main>
+            
+            <aside class="toolbar-vertical">
+                <button id="clearBtn" class="btn-vertical">🧹</button>
+                <button id="colorBtn" class="btn-vertical">🎨</button>
+                <div class="slider-container">
+                    <div class="size-emoji">🐘</div>
+                    <input type="range" id="brushSize" min="1" max="20" value="5" class="slider-vertical">
+                    <div class="size-emoji">🐭</div>
+                </div>
+            </aside>
+        </div>
         
         <div id="colorPicker" class="color-picker hidden">
             <div class="color-option" data-color="#000000" style="background-color: #000000;"></div>
@@ -53,7 +59,7 @@
     <!-- Scripts -->
     <script src="app.js"></script>
     <script>
-        // Register service worker
+        // Register service worker (optimized for development)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')

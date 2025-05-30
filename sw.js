@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pwa-ipad-v1.0.0';
+const CACHE_NAME = 'pwa-ipad-v1.0.1';
 const urlsToCache = [
     '/',
     '/index.html',
@@ -15,20 +15,25 @@ const urlsToCache = [
     '/icons/icon-512x512.png'
 ];
 
+// Détecter si on est en développement
+const isDevelopment = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.hostname.includes('192.168') || location.hostname.includes('10.0.0');
+
 // Installation du service worker
 self.addEventListener('install', (event) => {
     console.log('Service Worker: Installation en cours...');
     
-    event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then((cache) => {
-                console.log('Service Worker: Cache ouvert');
-                return cache.addAll(urlsToCache);
-            })
-            .catch((error) => {
-                console.error('Service Worker: Erreur lors de la mise en cache:', error);
-            })
-    );
+    if (!isDevelopment) {
+        event.waitUntil(
+            caches.open(CACHE_NAME)
+                .then((cache) => {
+                    console.log('Service Worker: Cache ouvert');
+                    return cache.addAll(urlsToCache);
+                })
+                .catch((error) => {
+                    console.error('Service Worker: Erreur lors de la mise en cache:', error);
+                })
+        );
+    }
     
     // Forcer l'activation immédiate
     self.skipWaiting();
@@ -60,6 +65,12 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
     // Ignorer les requêtes non-HTTP
     if (!event.request.url.startsWith('http')) {
+        return;
+    }
+    
+    // En développement, toujours faire la requête réseau
+    if (isDevelopment) {
+        event.respondWith(fetch(event.request));
         return;
     }
     
