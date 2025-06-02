@@ -48,14 +48,6 @@ npm start
 3. Sélectionner "Ajouter à l'écran d'accueil"
 4. L'app sera disponible comme une app native
 
-## 🎨 Génération des icônes
-
-Pour générer les icônes PWA :
-
-1. Ouvrir `generate-icons.html` dans un navigateur
-2. Cliquer sur "Générer toutes les icônes"
-3. Déplacer les fichiers téléchargés dans le dossier `icons/`
-
 ## 🏗 Structure du projet
 
 ```
@@ -97,15 +89,6 @@ NBLI/
 - Fonctionnement hors ligne
 - Mise en cache intelligente
 - Notifications push (préparé pour futures fonctionnalités)
-
-## 🚀 Développement futur
-
-- [ ] Sauvegarde des dessins en local
-- [ ] Export en différents formats (PNG, SVG, PDF)
-- [ ] Calques multiples
-- [ ] Outils de dessin avancés (gomme, formes)
-- [ ] Synchronisation cloud
-- [ ] Collaboration en temps réel
 
 ## 🐛 Dépannage
 
